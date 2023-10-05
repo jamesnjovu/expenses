@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846482770790",
+    "project_id": "expenses-8ed77",
+    "storage_bucket": "expenses-8ed77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846482770790:android:e8ecc22f10382122f616a7",
+        "android_client_info": {
+          "package_name": "com.tsoka.expenses"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpvlU5lBA2jtBSdJaIJF9lwt1WcgM593U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
