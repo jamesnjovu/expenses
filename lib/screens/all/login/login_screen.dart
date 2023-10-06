@@ -117,7 +117,7 @@ class _MyHomePageState extends State<LogInScreen> {
                                 strokeWidth: 2,
                               ),
                             )
-                          :  Text(
+                          :  const Text(
                               'Login',
                               style: TextStyle(color: Colors.white, fontSize: 25),
                             )
