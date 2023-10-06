@@ -1,3 +1,4 @@
+import 'package:expenses/screens/all/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../services/auth_service.dart';
 
@@ -12,14 +13,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
-  var c_pass;
+  var cPass = '';
+  var errorMessage = '';
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
-  handleSubmit() async {
+  handleSubmit(context) async {
     if (!_formKey.currentState!.validate()) return;
-
     final email = _emailController.value.text;
     final password = _passwordController.value.text;
     final confirmPassword = _confirmPasswordController.value.text;
@@ -27,16 +28,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (password != confirmPassword) return;
 
     setState(() => _loading = true);
+    setState(() => errorMessage = '');
 
-    await AuthService().signUpWithEmailAndPassword(email, password);
+    final response = await AuthService().signUpWithEmailAndPassword(email, password);
 
+    if (response == null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const LogInScreen(title: 'Please login')),
+      );
+    } else {
+      setState(() => errorMessage = response);
+    }
     setState(() => _loading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Sign Up"),
       ),
@@ -54,6 +63,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: Image.asset('assets/images/logo.png')),
                 ),
               ),
+              Text(errorMessage, style: const TextStyle(color: Colors.red, fontSize: 20)),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 15.0, right: 15.0, top: 15, bottom: 0),
@@ -62,9 +72,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) {
                     if (value == null) {
                       return 'Please enter your email';
-                    }
-                    if (RegExp(r"^[A-Za-z0-9._+\-\']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$").hasMatch(value)) {
-                      return 'Invalid email';
                     }
                     return null;
                   },
@@ -86,7 +93,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value == null) {
                       return 'Please enter your password';
                     }
-                    c_pass = value;
+                    setState(() => cPass = value);
                     return null;
                   },
                   decoration: const InputDecoration(
@@ -105,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value == null) {
                       return 'Please enter your password';
                     }
-                    if (value == c_pass) {
+                    if (value != cPass) {
                       return 'Password do not match';
                     }
                     return null;
@@ -125,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black
                       ),
-                      onPressed: () => handleSubmit(),
+                      onPressed: () => handleSubmit(context),
                       child: _loading
                           ? const SizedBox(
                               height: 20,

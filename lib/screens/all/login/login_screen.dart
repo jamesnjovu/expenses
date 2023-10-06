@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../signup/signup_screen.dart';
 import '../../../services/auth_service.dart';
+import '../home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key, required this.title});
@@ -12,19 +13,28 @@ class LogInScreen extends StatefulWidget {
 
 class _MyHomePageState extends State<LogInScreen> {
   bool _loading = false;
+  var errorMessage = '';
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  handleSubmit() async {
+  handleSubmit(context) async {
     if (!_formKey.currentState!.validate()) return;
     final email = _emailController.value.text;
     final password = _passwordController.value.text;
 
     setState(() => _loading = true);
+    setState(() => errorMessage = '');
 
-    await AuthService().signInWithEmailAndPassword(email, password);
+    final response = await AuthService().signInWithEmailAndPassword(email, password);
 
+    if (response == null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } else {
+      setState(() => errorMessage = response);
+    }
     setState(() => _loading = false);
   }
 
@@ -49,6 +59,7 @@ class _MyHomePageState extends State<LogInScreen> {
                           child: Image.asset('assets/images/logo.png')),
                     ),
                   ),
+                  Text(errorMessage, style: const TextStyle(color: Colors.red, fontSize: 20)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
@@ -56,9 +67,6 @@ class _MyHomePageState extends State<LogInScreen> {
                       validator: (value) {
                           if (value == null) {
                             return 'Please enter your email';
-                          }
-                          if (RegExp(r"^[A-Za-z0-9._+\-\']+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}$").hasMatch(value)) {
-                            return 'Invalid email';
                           }
                           return null;
                       },
@@ -99,7 +107,7 @@ class _MyHomePageState extends State<LogInScreen> {
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black
                       ),
-                      onPressed: () => handleSubmit(),
+                      onPressed: () => handleSubmit(context),
                       child: _loading
                           ? const SizedBox(
                               height: 20,
