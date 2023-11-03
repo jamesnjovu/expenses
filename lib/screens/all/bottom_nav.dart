@@ -15,7 +15,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 1;
 
   final List<Widget> _screens = [
-    HomeScreen(),
+    const HomeScreen(),
     StatisticsScreen(),
     ShareReportScreen(),
     SettingsScreen(),
