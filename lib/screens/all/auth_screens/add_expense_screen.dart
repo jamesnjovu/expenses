@@ -1,5 +1,6 @@
 import 'package:expenses/services/expense_repository.dart';
 import 'package:expenses/models/expense.dart';
+import 'package:expenses/screens/all/bottom_nav.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -17,6 +18,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   String selectedCategory = 'Food'; // Default category
   String? selectedImage; // Store the selected image path
   final ImagePicker _imagePicker = ImagePicker();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,75 +26,104 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       appBar: AppBar(
         title: const Text('Add Expense'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
-            ),
-            TextField(
-              controller: _amountController,
-              decoration: const InputDecoration(labelText: 'Amount'),
-              keyboardType: TextInputType.number,
-            ),
-            GestureDetector(
-              onTap: () {
-                _selectDate(context);
-              },
-              child: AbsorbPointer(
-                child: TextField(
-                  controller: _dateController,
-                  decoration: const InputDecoration(labelText: 'Date'),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: _titleController,
+                  decoration: const InputDecoration(labelText: 'Title'),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please enter your Title';
+                    }
+                    return null;
+                  },
                 ),
-              ),
+                TextFormField(
+                  controller: _amountController,
+                  decoration: const InputDecoration(labelText: 'Amount'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please enter your amount';
+                    }
+                    return null;
+                  },
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: _dateController,
+                      decoration: const InputDecoration(labelText: 'Date'),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a Date';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                DropdownButtonFormField<String>(
+                  value: selectedCategory,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCategory = newValue!;
+                    });
+                  },
+                  items: [
+                    'Food',
+                    'Transportation',
+                    'Housing',
+                    'Entertainment',
+                    'Other', // Add the "Other" option
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  decoration: const InputDecoration(labelText: 'Category'),
+                  validator: (value) {
+                    if (value == null) {
+                      return 'Please select a Category';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    // Open the image picker
+                    _selectImage();
+                  },
+                  child: const Text('Select Image to Attach'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Open the camera
+                    _captureImage();
+                  },
+                  child: const Text('Capture Image to Attach'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Validate and save the expense
+                    _saveExpense();
+                  },
+                  child: const Text('Save Expense'),
+                ),
+              ],
             ),
-            const SizedBox(height: 16.0),
-            DropdownButtonFormField<String>(
-              value: selectedCategory,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedCategory = newValue!;
-                });
-              },
-              items: [
-                'Food',
-                'Transportation',
-                'Housing',
-                'Entertainment',
-                'Other', // Add the "Other" option
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              decoration: const InputDecoration(labelText: 'Category'),
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Open the image picker
-                _selectImage();
-              },
-              child: const Text('Select Image to Attach'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Open the camera
-                _captureImage();
-              },
-              child: const Text('Capture Image to Attach'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Validate and save the expense
-                _saveExpense();
-              },
-              child: const Text('Save Expense'),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -152,7 +183,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       expenseRepository.insertExpense(expense);
 
       // Navigate back to the expense list screen
-      Navigator.pop(context);
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
+      );
     } else {
       // Show an error message if any field is empty or invalid
       ScaffoldMessenger.of(context).showSnackBar(

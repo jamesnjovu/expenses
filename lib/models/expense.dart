@@ -4,13 +4,14 @@ class Expense {
   double amount;
   String date;
 
-  Expense(
-      {this.id,
-      required this.title,
-      required this.amount,
-      required this.date,
-      required String category,
-      String? image});
+  Expense({
+    this.id,
+    required this.title,
+    required this.amount,
+    required this.date,
+    required String category,
+    required String? image,
+  });
 
   Map<String, dynamic> toMap() {
     return {

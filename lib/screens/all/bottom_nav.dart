@@ -12,7 +12,7 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
 
   final List<Widget> _screens = [
     const HomeScreen(),
@@ -26,6 +26,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,4 +58,3 @@ class _BottomNavigationState extends State<BottomNavigation> {
     );
   }
 }
-

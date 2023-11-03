@@ -2,7 +2,6 @@ import 'package:expenses/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:expenses/screens/all/bottom_nav.dart';
 import 'package:expenses/screens/all/login/login_screen.dart';
 
@@ -19,7 +18,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Expenses',
+      title: 'Expense Tracker',
       themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

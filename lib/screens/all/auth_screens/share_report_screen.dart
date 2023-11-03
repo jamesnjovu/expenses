@@ -22,6 +22,9 @@ class _SettingsScreenState extends State<ShareReportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Expenses Tracker'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -29,7 +32,7 @@ class _SettingsScreenState extends State<ShareReportScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
+              const Text(
                 'Select Date Range:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -46,7 +49,7 @@ class _SettingsScreenState extends State<ShareReportScreen> {
                       },
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: DateTimePicker(
                       label: 'End Date',
@@ -60,14 +63,14 @@ class _SettingsScreenState extends State<ShareReportScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'Select Sharing Method:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               DropdownButtonFormField<String>(
                 value: selectedMethod,
-                hint: Text('Select Method'),
+                hint: const Text('Select Method'),
                 items: ['Email', 'SMS']
                     .map((method) => DropdownMenuItem<String>(
                           value: method,
@@ -86,7 +89,7 @@ class _SettingsScreenState extends State<ShareReportScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: selectedMethod == 'Email'
@@ -109,7 +112,7 @@ class _SettingsScreenState extends State<ShareReportScreen> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -123,7 +126,7 @@ class _SettingsScreenState extends State<ShareReportScreen> {
                     }
                   }
                 },
-                child: Text('Send Report'),
+                child: const Text('Send Report'),
               ),
             ],
           ),

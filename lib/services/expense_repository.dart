@@ -19,6 +19,7 @@ class ExpenseRepository {
         title: maps[i]['title'],
         amount: maps[i]['amount'],
         date: maps[i]['date'],
+        image: maps[i]['image'],
         category: '',
       );
     });

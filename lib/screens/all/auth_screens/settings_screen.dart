@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
-import 'package:expenses/services/expense_repository.dart';
-import 'package:expenses/models/expense.dart';
+import 'package:expenses/services/auth_service.dart';
 import 'package:expenses/services/preferences_manager.dart';
+import 'package:expenses/main.dart';
 
 class SettingsScreen extends StatefulWidget {
   SettingsScreen({super.key});
@@ -28,10 +27,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
     darkMode = await PreferencesManager.getDarkMode();
     setState(() {});
   }
+  void handleLogout() async {
+    await AuthService().signOut();
+    Navigator.of(context).pop();
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => const App()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Expenses Tracker'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -94,6 +103,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 });
               },
             ),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () {
+                handleLogout();
+              },
+              child: const Text('Log out'),
+            )
           ],
         ),
       ),

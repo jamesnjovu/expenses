@@ -10,6 +10,7 @@ class DatabaseHelper {
   static const columnTitle = 'title';
   static const columnAmount = 'amount';
   static const columnDate = 'date';
+  static const columnImage = 'image';
 
   // Make this a singleton class
   DatabaseHelper._privateConstructor();
@@ -37,7 +38,8 @@ class DatabaseHelper {
         $columnId INTEGER PRIMARY KEY,
         $columnTitle TEXT NOT NULL,
         $columnAmount REAL NOT NULL,
-        $columnDate TEXT NOT NULL
+        $columnDate TEXT NOT NULL,
+        $columnImage BLOB
       )
     ''');
   }

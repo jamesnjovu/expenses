@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:expenses/screens/all/signup/signup_screen.dart';
 import 'package:expenses/services/auth_service.dart';
-import 'package:expenses/screens/all/auth_screens/home_screen.dart';
+import 'package:expenses/screens/all/bottom_nav.dart';
+import 'package:expenses/screens/all/signup/signup_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key, required this.title});
@@ -30,7 +30,7 @@ class _MyHomePageState extends State<LogInScreen> {
 
     if (response == null) {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const BottomNavigation()),
       );
     } else {
       setState(() => errorMessage = response);
@@ -88,6 +88,7 @@ class _MyHomePageState extends State<LogInScreen> {
                             content: Text('Please enter your password!'),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
                           return 'Please enter your password';
                         }
                         return null;
@@ -98,6 +99,7 @@ class _MyHomePageState extends State<LogInScreen> {
                           hintText: 'Enter secure password'),
                     ),
                   ),
+                  const SizedBox(height: 16.0),
                   Container(
                     height: 50,
                     width: 250,
