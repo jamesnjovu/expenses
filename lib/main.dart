@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:expenses/screens/all/home_screen.dart';
+import 'package:expenses/screens/all/bottom_nav.dart';
 import 'package:expenses/screens/all/login/login_screen.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp( const App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
@@ -35,7 +34,7 @@ class App extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const HomeScreen();
+            return const BottomNavigation();
           } else {
             return const LogInScreen(title: 'Login');
           }

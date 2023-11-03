@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../signup/signup_screen.dart';
-import '../../../services/auth_service.dart';
-import '../home_screen.dart';
+import 'package:expenses/screens/all/signup/signup_screen.dart';
+import 'package:expenses/services/auth_service.dart';
+import 'package:expenses/screens/all/auth_screens/home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({super.key, required this.title});
